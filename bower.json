@@ -1,0 +1,20 @@
+{
+  "name": "theme-bootstra4-sass-gulp",
+  "version": "1.0.0",
+  "authors": [
+    "Wiver Marques <wivermarques@wivermarques.com>"
+  ],
+  "description": "Bower Default",
+  "license": "MIT",
+  "homepage": "http://www.wivermarques.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.6",
+    "components-font-awesome": "^4.7.0"
+  }
+}
