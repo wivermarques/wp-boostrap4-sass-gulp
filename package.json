@@ -1,10 +1,10 @@
 {
-  "name": "theme-bootstra4-sass-gulp",
+  "name": "wp-bootstra4-sass-gulp",
   "version": "1.0.1",
   "authors": [
     "Wiver Marques <wivermarques@wivermarques.com>"
   ],
-  "description": "Theme Boostrap4 Sass Gulp",
+  "description": "Wordpress Boostrap4 Sass Gulp",
   "license": "MIT",
   "homepage": "http://www.wivermarques.com",
   "private": true,
