@@ -6,3 +6,8 @@
  *
  * @package Wordpress_Boostrap4_Sass_Gulp
  */
+ 
+ /**
+ * Enqueue scripts and styles.
+ */
+require get_template_directory() . '/inc/enqueue.php';
