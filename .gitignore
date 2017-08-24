@@ -1,5 +1,8 @@
 ### Folders ###
 assets/
+src/css
+src/js/vendor
+src/assets/
 
 ### Bower ###
 bower_components
