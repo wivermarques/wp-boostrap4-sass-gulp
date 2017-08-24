@@ -16,7 +16,7 @@ var browserSyncWatchFiles = [
 
 // browser-sync options
 var browserSyncOptions = {
-    proxy: "localhost/Mirum/gpa/",
+    proxy: "localhost/",
     notify: true
 };
 
@@ -95,7 +95,7 @@ gulp.task('minify-css', function() {
 });
 
 gulp.task('cleancss', function() {
-  return gulp.src('./css/*.min.css', { read: false }) // much faster
+  return gulp.src(basePaths.deploy + 'css/*.min.css', { read: false }) // much faster
     .pipe(ignore('theme.css'))
     .pipe(rimraf());
 });
