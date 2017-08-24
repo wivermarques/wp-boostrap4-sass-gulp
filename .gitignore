@@ -1,8 +1,9 @@
 ### Folders ###
-assets/
-!assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js
-src/css/
-src/js/vendor/
+assets/*
+!assets/js/vendor/
+
+src/css/*
+src/js/vendor/*
 
 ### Bower ###
 bower_components
