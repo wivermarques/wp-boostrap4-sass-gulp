@@ -1,7 +1,6 @@
 ### Folders ###
 assets/*
 !assets/js/vendor/
-
 src/css/*
 src/js/vendor/*
 

@@ -11,7 +11,7 @@ var basePaths = {
 var browserSyncWatchFiles = [
     './assets/css/*.min.css',
     './assets/js/*.min.js',
-    './assets/**/*.php'
+    './**/*.php'
 ];
 
 // browser-sync options
@@ -102,7 +102,6 @@ gulp.task('cleancss', function() {
 
 gulp.task('styles', function(callback){ gulpSequence('sass', 'minify-css')(callback) });
 
-
 // Run:
 // gulp copy-assets.
 // Copy all needed assets assets files from bower_component assets to themes /js, /scss and /fonts folder. Run this task after bower install or bower update
@@ -116,6 +115,10 @@ gulp.task('copy-assets', function() {
     gulp.src(basePaths.bower + 'bootstrap/scss/**/*.scss')
        .pipe(gulp.dest(basePaths.dev + 'sass/assets/bootstrap4'));
        
+// Copy Tether JS files
+    gulp.src(basePaths.bower + 'tether/dist/js/*.js')
+        .pipe(gulp.dest(basePaths.dev + '/js/vendor/'));
+       
 // Copy all Font Awesome Fonts
     gulp.src(basePaths.bower + 'components-font-awesome/fonts/**/*.{ttf,woff,woff2,eof,svg}')
         .pipe(gulp.dest(basePaths.deploy + 'fonts'));
@@ -127,17 +130,29 @@ gulp.task('copy-assets', function() {
 	return stream;
 });
 
+// Run:
+// gulp imagemin
+// Running image optimizing task
+gulp.task('imagemin', function(){
+    gulp.src(basePaths.dev + 'img/**')
+    .pipe(imagemin())
+    .pipe(gulp.dest(basePaths.deploy + 'img'))
+});
+
+gulp.task('starter', function(callback){ gulpSequence('copy-assets', 'sass', 'cssnano', 'minify-css', 'imagemin')(callback) });
+
 // Run: 
 // gulp scripts. 
 // Uglifies and concat all JS files into one
 gulp.task('scripts', function() {
     var scripts = [
-        
-        // Custom js
-        basePaths.dev + 'js/main.js',
+        basePaths.dev + 'js/vendor/tether.js', // Must be loaded before BS4
         
         // Start - All BS4 stuff
         basePaths.dev + 'js/vendor/bootstrap.js',
+        
+        // Custom js
+        basePaths.dev + 'js/main.js',
 
     ];
     
@@ -149,15 +164,6 @@ gulp.task('scripts', function() {
 	gulp.src(scripts)
 	.pipe(concat('theme.js'))
 	.pipe(gulp.dest(basePaths.deploy + 'js/'));
-});
-
-// Run:
-// gulp imagemin
-// Running image optimizing task
-gulp.task('imagemin', function(){
-    gulp.src(basePaths.dev + 'img/**')
-    .pipe(imagemin())
-    .pipe(gulp.dest(basePaths.deploy + 'img'))
 });
 
 // Run:
