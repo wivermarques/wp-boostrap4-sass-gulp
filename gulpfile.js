@@ -105,7 +105,7 @@ gulp.task('styles', function(callback){ gulpSequence('sass', 'minify-css')(callb
 // Run:
 // gulp copy-assets.
 // Copy all needed assets assets files from bower_component assets to themes /js, /scss and /fonts folder. Run this task after bower install or bower update
-gulp.task('copy-assets', function() {
+gulp.task('bower', function() {
 
 // Copy all Bootstrap JS files
     var stream = gulp.src(basePaths.bower + 'bootstrap/dist/js/**/*.js')
@@ -139,7 +139,7 @@ gulp.task('imagemin', function(){
     .pipe(gulp.dest(basePaths.deploy + 'img'))
 });
 
-gulp.task('starter', function(callback){ gulpSequence('copy-assets', 'sass', 'cssnano', 'minify-css', 'imagemin')(callback) });
+gulp.task('starter', function(callback){ gulpSequence('sass', 'cssnano', 'minify-css', 'imagemin')(callback) });
 
 // Run: 
 // gulp scripts. 

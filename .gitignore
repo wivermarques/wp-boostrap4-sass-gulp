@@ -3,7 +3,7 @@ assets/*
 !assets/js/vendor/
 src/css/*
 src/js/vendor/*
-src/assets/*
+src/sass/assets/*
 
 ### Bower ###
 bower_components
