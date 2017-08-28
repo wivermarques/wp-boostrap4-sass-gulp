@@ -100,7 +100,7 @@ gulp.task('cleancss', function() {
     .pipe(rimraf());
 });
 
-gulp.task('styles', function(callback){ gulpSequence('sass', 'minify-css')(callback) });
+gulp.task('styles', function(callback){ gulpSequence('sass', 'cssnano', 'minify-css')(callback) });
 
 // Run:
 // gulp copy-assets.
@@ -135,11 +135,13 @@ gulp.task('bower', function() {
 // Running image optimizing task
 gulp.task('imagemin', function(){
     gulp.src(basePaths.dev + 'img/**')
-    .pipe(imagemin())
+    .pipe(imagemin({
+	    progressive: true,
+	    svgoPlugins: [{removeViewBox: false}],
+	    use: [pngquant()]
+    }))
     .pipe(gulp.dest(basePaths.deploy + 'img'))
 });
-
-gulp.task('starter', function(callback){ gulpSequence('sass', 'cssnano', 'minify-css', 'imagemin')(callback) });
 
 // Run: 
 // gulp scripts. 
@@ -153,7 +155,6 @@ gulp.task('scripts', function() {
         
         // Custom js
         basePaths.dev + 'js/main.js',
-
     ];
     
 	gulp.src(scripts)
