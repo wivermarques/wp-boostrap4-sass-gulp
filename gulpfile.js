@@ -136,9 +136,7 @@ gulp.task('bower', function() {
 gulp.task('imagemin', function(){
     gulp.src(basePaths.dev + 'img/**')
     .pipe(imagemin({
-	    progressive: true,
-	    svgoPlugins: [{removeViewBox: false}],
-	    use: [pngquant()]
+	    progressive: true
     }))
     .pipe(gulp.dest(basePaths.deploy + 'img'))
 });
