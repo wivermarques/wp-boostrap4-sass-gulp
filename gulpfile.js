@@ -24,7 +24,6 @@ var browserSyncOptions = {
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
 var sass = require('gulp-sass');
-var cssnano = require('gulp-cssnano');
 var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
@@ -57,26 +56,8 @@ gulp.task('sass', function () {
     return stream;
 });
 
-// Run:
-// gulp cssnano
-// Minifies CSS files
-gulp.task('cssnano', function(){
-  return gulp.src(basePaths.dev + 'css/theme.css')
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(plumber({
-            errorHandler: function (err) {
-                console.log(err);
-                this.emit('end');
-            }
-        }))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(cssnano({discardComments: {removeAll: true}}))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(basePaths.deploy + 'css/'))
-});
-
 gulp.task('minify-css', function() {
-	return gulp.src(basePaths.deploy + 'css/theme.css')
+	return gulp.src(basePaths.dev + 'css/theme.css')
 	.pipe(sourcemaps.init({loadMaps: true}))
 	.pipe(autoprefixer({
 		browsers: ['last 2 versions'],
