@@ -81,7 +81,7 @@ gulp.task('cleancss', function() {
     .pipe(rimraf());
 });
 
-gulp.task('styles', function(callback){ gulpSequence('sass', 'cssnano', 'minify-css')(callback) });
+gulp.task('styles', function(callback){ gulpSequence('sass', 'minify-css')(callback) });
 
 // Run:
 // gulp copy-assets.
