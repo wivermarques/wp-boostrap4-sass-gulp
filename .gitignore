@@ -1,6 +1,8 @@
 ### Folders ###
-assets/*
-!assets/js/vendor/
+assets/css/
+assets/fonts/
+assets/img/
+!assets/js/
 
 src/css/*
 src/img/*
