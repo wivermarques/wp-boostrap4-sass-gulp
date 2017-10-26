@@ -25,3 +25,29 @@
 </head>
 
 <body <?php body_class(); ?>>
+
+<!-- !Header -->
+<header class="layout-header" id="layout-header">
+	<div class="container">
+		<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<h1 class="navbar-brand">
+				<a href="#">Leal</a>
+			</h1>
+			<?php wp_nav_menu(
+				array(
+					'theme_location'  => 'menu-default',
+					'container_class' => 'collapse navbar-collapse',
+					'container_id'    => 'navbarNav',
+					'menu_class'      => 'navbar-nav',
+					'fallback_cb'     => '',
+					'menu_id'         => 'main-default'
+				)
+			); ?>			
+		</nav>	
+	</div>
+</header><!-- !@end Header -->
+
+<main class="layout-content">

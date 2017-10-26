@@ -1,0 +1,46 @@
+#page-contato{
+	.page-contato__horario{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 15px;
+		min-height: 70px;
+		margin-bottom: 30px;
+		border-radius: 15px;
+		background-color: $color-blue-contact;
+		h2{
+			display: flex;
+			align-items: center;
+			margin-bottom: 0;
+			font-size: 1.250em;
+			color: #fff;
+			font-weight: 400;
+			i{
+				display: inline-block;
+				margin-right: 15px;
+				font-size: 50px;
+			}
+		}
+	}
+	.page-contato__map{
+		padding: 20px 0;
+		.map__header{
+			padding: 15px 0;
+			background-color: $color-input-submit;
+			h3{
+				font-size: 1.250em;
+				color: #fff;
+				text-align: center;
+				font-weight: normal;
+			}
+		}
+		iframe{
+			width: 100%;
+			height: 445px;
+			
+			@include media-breakpoint-down(xs){
+				height: 300px;
+			}
+		}
+	}
+}

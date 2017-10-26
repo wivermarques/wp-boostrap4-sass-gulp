@@ -1,0 +1,54 @@
+.section-page-default{
+	padding-top: 45px;
+	.page-default__content{
+		.page-default__title{
+			margin-bottom: 10px;
+			font-size: 1.375em;
+			color: $color-blue;
+			font-weight: 400;
+		}
+		p{
+			margin-bottom: 25px;
+			font-size: 1em;
+			color: #000;
+			text-align: justify;
+		}
+	}
+	
+	.page-default__footer{
+		padding: 30px 0;
+		background-color: $color-smoke;
+		.footer__share{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 0;
+			padding: 0;
+			list-style: none;
+			li{
+				display: flex;
+				margin-right: 8px;
+				font-size: 1.375em;
+				color: $color-smoke-share;
+				&:last-child{
+					margin-right: 0;
+				}
+				a{
+					display: inline-block;
+					width: 26px;
+					color: #000;
+					font-size: 15px;
+					line-height: 26px;
+					text-align: center;
+					background-color: $color-smoke-share;
+					
+					transition: .3s ease-in-out;
+					&:hover{
+						text-decoration: none;
+						background-color: $color-smoke;
+					}
+				}
+			}
+		}
+	}
+}

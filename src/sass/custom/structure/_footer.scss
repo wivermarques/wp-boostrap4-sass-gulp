@@ -1,0 +1,29 @@
+.layout-footer{
+	margin-top: 30px;
+	padding: 15px 0;
+	background-color: $color-bg-footer;
+	
+	@include media-breakpoint-down(xs){
+		text-align: center;
+	}
+	
+	p{
+		margin-bottom: 0;
+		font-size: 1.375em;
+		color: $color-blue;
+		text-align: center;
+		font-weight: 700;
+		a{
+			color: $color-blue;
+			font-weight: normal;
+		}
+	}
+	
+	.footer__logo{
+		float: right;
+		
+		@include media-breakpoint-down(xs){
+			float: none;
+		}
+	}
+}

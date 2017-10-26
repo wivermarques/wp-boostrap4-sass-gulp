@@ -1,0 +1,25 @@
+#page-clientes{
+	.list__clientes{
+		.clientes__item{
+			height: 165px;
+			margin-bottom: 30px;
+			figure{
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+				padding: 15px;
+				border-radius: 15px;
+				//background-color: #fff;
+				background-color: #f7f0da;
+				a{
+					display: block;
+					img{
+						width: auto;
+						max-height: 100%;
+					}
+				}
+			}
+		}
+	}
+}

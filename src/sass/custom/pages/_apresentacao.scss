@@ -1,0 +1,17 @@
+#page-leal{
+	.page-default__content{
+		figure{
+			img{
+				border-radius: 8px;
+			}
+		}
+	}
+	.page-leal__lei{
+		margin: 30px 0;
+		padding: 25px 0;
+		background-color: $color-green-bg;
+		.page-default__title{
+			color: $color-green;
+		}
+	}
+}

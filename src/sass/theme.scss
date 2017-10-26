@@ -1,6 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700');
+
+// Custom font-face and variables
+@import "custom/variables";
+
 @import "assets/bootstrap4/bootstrap";
 
 @import "assets/fontawesome/font-awesome";
 
+@import "assets/fancy/fancy";
+
 // Any additional imported files //
+@import "custom/common";
 @import "custom/theme"; 
