@@ -20,6 +20,37 @@ get_header(); ?>
 <!-- !Page Default -->
 <section class="page-home">
 	
+	<section class="section-home__banner">
+		<div class="container">
+			<button class="banner__prev"></button>
+			<div class="banner__carousel" id="carousel-home">
+				<div class="carousel__item">
+					<div class="row align-items-center">
+						<div class="col-12 col-sm-6 col-md-6 col-lg-5 ml-auto">
+							<h2>Empresa certificada</h2>
+							<h3>Marca da gestão florestal responsável.</h3>
+						</div>
+						<div class="col-12 col-sm-6 hidden-sm-down">
+							<img class="img-fluid" src="<?php echo get_bloginfo('template_directory');?>/assets/img/img-banner-01.png" alt="img-banner-01" width="379" height="230" />
+						</div>
+					</div>
+				</div>
+				<div class="carousel__item">
+					<div class="row align-items-center">
+						<div class="col-12 col-sm-6 col-md-6 col-lg-5 ml-auto">
+							<h2>Empresa certificada</h2>
+							<h3>Marca da gestão florestal responsável.</h3>
+						</div>
+						<div class="col-12 col-sm-6 hidden-sm-down">
+							<img class="img-fluid" src="<?php echo get_bloginfo('template_directory');?>/assets/img/img-banner-01.png" alt="img-banner-01" width="379" height="230" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="banner__next"></button>
+		</div>
+	</section>
+	
 	<?php
 	$args = array(
 	    'posts_per_page' => 4,

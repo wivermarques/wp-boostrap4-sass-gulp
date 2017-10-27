@@ -135,6 +135,9 @@ gulp.task('scripts', function() {
         // Jquery Mask
         basePaths.dev + 'js/vendor/jquery.mask.js',
         
+        // Slick
+        basePaths.dev + 'js/vendor/slick.js',
+        
         // Fancy
         basePaths.dev + 'js/vendor/jquery.fancybox.js',
         

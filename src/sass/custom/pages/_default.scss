@@ -1,5 +1,16 @@
 .section-page-default{
-	padding-top: 45px;
+	position: relative;
+	top:$positionDesk;
+	padding-top: 260px;
+	margin-bottom: $positionDesk;
+	background: url(../img/bg-body.png) no-repeat center top;
+	
+	@include media-breakpoint-only(xs){
+		top: $positionMobile;
+		padding-top: 230px;
+		margin-bottom: $positionMobile;
+	}
+	
 	.page-default__content{
 		.page-default__title{
 			margin-bottom: 10px;
