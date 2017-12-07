@@ -17,7 +17,8 @@ Blank theme that uses the Bootstrap 4 framework
 ## Starter Theme
 
 - Download the dependencies npm "npm install".
-- Use "gulp bower" for the dependencies.
+- Download the dependencies bower "bower install".
+- Use "gulp bower" for transfer the dependencies.
 
 ### Running
 
