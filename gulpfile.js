@@ -16,7 +16,7 @@ var browserSyncWatchFiles = [
 
 // browser-sync options
 var browserSyncOptions = {
-    proxy: "localhost/Clientes/formatos-comunicacao/leal/",
+    proxy: "localhost/",
     notify: true
 };
 
@@ -131,15 +131,6 @@ gulp.task('scripts', function() {
         
         // Start - All BS4 stuff
         basePaths.dev + 'js/vendor/bootstrap.js',
-        
-        // Jquery Mask
-        basePaths.dev + 'js/vendor/jquery.mask.js',
-        
-        // Slick
-        basePaths.dev + 'js/vendor/slick.js',
-        
-        // Fancy
-        basePaths.dev + 'js/vendor/jquery.fancybox.js',
         
         // Custom js
         basePaths.dev + 'js/main.js',
