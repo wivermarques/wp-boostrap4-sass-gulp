@@ -27,7 +27,7 @@ var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
-var gulpSequence = require('gulp-sequence');
+var gulpSequence = require('gulp4-run-sequence');
 var autoprefixer = require('gulp-autoprefixer');
 var imagemin = require('gulp-imagemin');
 var uglify = require('gulp-uglify');
@@ -146,11 +146,11 @@ gulp.task('scripts', function() {
 // gulp watch
 // Starts watcher. Watcher runs gulp sass task on changes
 gulp.task('watch', function () {
-    gulp.watch(basePaths.dev + 'sass/**/*.scss', ['styles']);
-    gulp.watch([basePaths.dev + 'js/**/*.js','js/**/*.js','!js/theme.js','!js/theme.min.js'], ['scripts']);
+    gulp.watch(basePaths.dev + 'sass/**/*.scss', gulp.parallel('styles'));
+    gulp.watch((basePaths.dev + 'js/**/*.js','js/**/*.js','!js/theme.js','!js/theme.min.js'), gulp.parallel('scripts'));
 
     //Inside the watch task.
-    gulp.watch(basePaths.dev + 'img/**', ['imagemin'])
+    gulp.watch(basePaths.dev + 'img/**', gulp.parallel('imagemin'))
 });
 
 // Run:
@@ -163,5 +163,5 @@ gulp.task('browser-sync', function() {
 // Run:
 // gulp watch-bs
 // Starts watcher with browser-sync. Browser-sync reloads page automatically on your browser
-gulp.task('watch-bs', ['browser-sync', 'watch', 'scripts'], function () { });
+gulp.task('watch-bs', gulp.parallel('browser-sync', 'watch', 'scripts'), function () { });
 
