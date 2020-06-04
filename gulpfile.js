@@ -1,5 +1,5 @@
 // Defining base pathes
-var basePaths = {
+const basePaths = {
 	bower: './bower_components/',
 	node: './node_modules/',
 	dev: './src/',
@@ -8,32 +8,30 @@ var basePaths = {
 
 // browser-sync watched files
 // automatically reloads the page when files changed
-var browserSyncWatchFiles = [
+const browserSyncWatchFiles = [
     './assets/css/*.min.css',
     './assets/js/*.min.js',
     './**/*.php'
 ];
 
 // browser-sync options
-var browserSyncOptions = {
+const browserSyncOptions = {
     proxy: "localhost/",
     notify: true
 };
 
 // Defining requirements
-var gulp = require('gulp');
-var plumber = require('gulp-plumber');
-var sass = require('gulp-sass');
-var cleanCSS = require('gulp-clean-css');
-var rename = require('gulp-rename');
-var sourcemaps = require('gulp-sourcemaps');
-var gulpSequence = require('gulp4-run-sequence');
-var autoprefixer = require('gulp-autoprefixer');
-var imagemin = require('gulp-imagemin');
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
-var watch = require('gulp-watch');
-var browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const plumber = require('gulp-plumber');
+const sass = require('gulp-sass');
+const cleanCSS = require('gulp-clean-css');
+const rename = require('gulp-rename');
+const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require('gulp-autoprefixer');
+const imagemin = require('gulp-imagemin');
+const uglify = require('gulp-uglify');
+const concat = require('gulp-concat');
+const browserSync = require('browser-sync').create();
 
 
 
@@ -43,27 +41,22 @@ var browserSync = require('browser-sync').create();
 // Run:
 // gulp sass
 // Compiles SCSS files in CSS
-gulp.task('sass', function () {
-    var stream = gulp.src(basePaths.dev + 'sass/*.scss')
-        .pipe(plumber({
-            errorHandler: function (err) {
-                console.log(err);
-                this.emit('end');
-            }
-        }))
+function sassCSS() {
+    return(
+        gulp
+        .src(basePaths.dev + 'sass/*.scss')      
         .pipe(sass())
+        .on("error", sass.logError)
         .pipe(gulp.dest(basePaths.dev + 'css'))
-    return stream;
-});
+    );
+};
+//exports.sassCSS = sassCSS;
 
-gulp.task('minify-css', function() {
+function minifyCSS() {
 	return gulp.src(basePaths.dev + 'css/theme.css')
 	.pipe(sourcemaps.init({loadMaps: true}))
-	.pipe(autoprefixer({
-		browsers: ['last 2 versions'],
-		cascade: false
-	}))
-	.pipe(cleanCSS({compatibility: '*'}))
+    .pipe(autoprefixer())
+	.pipe(cleanCSS({compatibility: 'ie >= 8'}))
 	.pipe(plumber({
 	        errorHandler: function (err) {
 	            console.log(err);
@@ -73,15 +66,11 @@ gulp.task('minify-css', function() {
 	.pipe(rename({suffix: '.min'}))
 	.pipe(sourcemaps.write('./'))
 	.pipe(gulp.dest(basePaths.deploy + 'css/'));
-});
+};
+//exports.minifyCSS = minifyCSS;
 
-gulp.task('cleancss', function() {
-  return gulp.src(basePaths.deploy + 'css/*.min.css', { read: false }) // much faster
-    .pipe(ignore('theme.css'))
-    .pipe(rimraf());
-});
+const styles = gulp.series(sassCSS, minifyCSS);
 
-gulp.task('styles', function(callback){ gulpSequence('sass', 'minify-css')(callback) });
 
 // Run:
 // gulp copy-assets.
@@ -89,13 +78,17 @@ gulp.task('styles', function(callback){ gulpSequence('sass', 'minify-css')(callb
 gulp.task('bower', function() {
 
 // Copy all Bootstrap JS files
-    var stream = gulp.src(basePaths.bower + 'bootstrap4/dist/js/**/*.js')
+    var stream = gulp.src(basePaths.bower + 'bootstrap/dist/js/**/*.js')
        .pipe(gulp.dest(basePaths.dev + 'js/vendor/'));
        
 // Copy all Bootstrap SCSS files
-    gulp.src(basePaths.bower + 'bootstrap4/scss/**/*.scss')
+    gulp.src(basePaths.bower + 'bootstrap/scss/**/*.scss')
        .pipe(gulp.dest(basePaths.dev + 'sass/assets/bootstrap4'));
-              
+       
+// Copy Tether JS files
+    gulp.src(basePaths.bower + 'tether/dist/js/*.js')
+        .pipe(gulp.dest(basePaths.dev + '/js/vendor/'));
+       
 // Copy all Font Awesome Fonts
     gulp.src(basePaths.bower + 'components-font-awesome/fonts/**/*.{ttf,woff,woff2,eof,svg}')
         .pipe(gulp.dest(basePaths.deploy + 'fonts'));
@@ -110,20 +103,23 @@ gulp.task('bower', function() {
 // Run:
 // gulp imagemin
 // Running image optimizing task
-gulp.task('imagemin', function(){
+function imageminImg(done){
     gulp.src(basePaths.dev + 'img/**')
     .pipe(imagemin({
 	    progressive: true
     }))
-    .pipe(gulp.dest(basePaths.deploy + 'img'))
-});
+    .pipe(gulp.dest(basePaths.deploy + 'img'));
+
+    done();
+};
+//exports.imageminImg = imageminImg;
 
 // Run: 
 // gulp scripts. 
 // Uglifies and concat all JS files into one
-gulp.task('scripts', function() {
-    var scripts = [
-        basePaths.dev + 'js/vendor/bootstrap.bundle.js', // Must be loaded before BS4
+function scriptsJs(done) {
+    const scripts = [
+        basePaths.dev + 'js/vendor/tether.js', // Must be loaded before BS4
         
         // Start - All BS4 stuff
         basePaths.dev + 'js/vendor/bootstrap.js',
@@ -139,29 +135,35 @@ gulp.task('scripts', function() {
 	
 	gulp.src(scripts)
 	.pipe(concat('theme.js'))
-	.pipe(gulp.dest(basePaths.deploy + 'js/'));
-});
+    .pipe(gulp.dest(basePaths.deploy + 'js/'));
+    
+    done();
+};
+//exports.scriptsJs = scriptsJs;
 
 // Run:
 // gulp watch
 // Starts watcher. Watcher runs gulp sass task on changes
-gulp.task('watch', function () {
-    gulp.watch(basePaths.dev + 'sass/**/*.scss', gulp.parallel('styles'));
-    gulp.watch((basePaths.dev + 'js/**/*.js','js/**/*.js','!js/theme.js','!js/theme.min.js'), gulp.parallel('scripts'));
+function watchFiles() {
+    gulp.watch(basePaths.dev + 'sass/**/*.scss', styles);
+    gulp.watch(basePaths.dev + 'js/**/*.js', scriptsJs);
 
     //Inside the watch task.
-    gulp.watch(basePaths.dev + 'img/**', gulp.parallel('imagemin'))
-});
+    gulp.watch(basePaths.dev + 'img/**', imageminImg)
+};
+//exports.watchFiles = watchFiles;
+
 
 // Run:
 // gulp browser-sync
 // Starts browser-sync task for starting the server.
-gulp.task('browser-sync', function() {
+function openBrowser() {
     browserSync.init(browserSyncWatchFiles, browserSyncOptions);
-});
+};
+//exports.openBrowser = openBrowser;
 
 // Run:
 // gulp watch-bs
 // Starts watcher with browser-sync. Browser-sync reloads page automatically on your browser
-gulp.task('watch-bs', gulp.parallel('browser-sync', 'watch', 'scripts'), function () { });
+gulp.task('watch-bs', gulp.parallel(openBrowser, watchFiles));
 
