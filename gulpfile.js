@@ -78,17 +78,13 @@ const styles = gulp.series(sassCSS, minifyCSS);
 gulp.task('bower', function() {
 
 // Copy all Bootstrap JS files
-    var stream = gulp.src(basePaths.bower + 'bootstrap/dist/js/**/*.js')
+    var stream = gulp.src(basePaths.bower + 'bootstrap4/dist/js/**/*.js')
        .pipe(gulp.dest(basePaths.dev + 'js/vendor/'));
        
 // Copy all Bootstrap SCSS files
-    gulp.src(basePaths.bower + 'bootstrap/scss/**/*.scss')
+    gulp.src(basePaths.bower + 'bootstrap4/scss/**/*.scss')
        .pipe(gulp.dest(basePaths.dev + 'sass/assets/bootstrap4'));
-       
-// Copy Tether JS files
-    gulp.src(basePaths.bower + 'tether/dist/js/*.js')
-        .pipe(gulp.dest(basePaths.dev + '/js/vendor/'));
-       
+              
 // Copy all Font Awesome Fonts
     gulp.src(basePaths.bower + 'components-font-awesome/fonts/**/*.{ttf,woff,woff2,eof,svg}')
         .pipe(gulp.dest(basePaths.deploy + 'fonts'));
@@ -119,10 +115,8 @@ function imageminImg(done){
 // Uglifies and concat all JS files into one
 function scriptsJs(done) {
     const scripts = [
-        basePaths.dev + 'js/vendor/tether.js', // Must be loaded before BS4
-        
         // Start - All BS4 stuff
-        basePaths.dev + 'js/vendor/bootstrap.js',
+        basePaths.dev + 'js/vendor/bootstrap.bundle.js',
         
         // Custom js
         basePaths.dev + 'js/main.js',
@@ -165,5 +159,6 @@ function openBrowser() {
 // Run:
 // gulp watch-bs
 // Starts watcher with browser-sync. Browser-sync reloads page automatically on your browser
+gulp.task('initial', gulp.parallel(styles, scriptsJs, imageminImg));
 gulp.task('watch-bs', gulp.parallel(openBrowser, watchFiles));
 
