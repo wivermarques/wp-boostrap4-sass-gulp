@@ -2,7 +2,7 @@
 const basePaths = {
 	bower: './bower_components/',
 	node: './node_modules/',
-	dev: './src/',
+    dev: './src/',
 	deploy: './assets/'
 };
 
@@ -16,7 +16,7 @@ const browserSyncWatchFiles = [
 
 // browser-sync options
 const browserSyncOptions = {
-    proxy: "localhost/",
+    proxy: "localhost/clientes/facebrand/amauri-bueno/",
     notify: true
 };
 
@@ -32,11 +32,32 @@ const imagemin = require('gulp-imagemin');
 const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 const browserSync = require('browser-sync').create();
+const notify = require("gulp-notify");
+const pipeline = require('readable-stream').pipeline;
 
+// Run:
+// gulp copy-assets.
+// Copy all needed assets assets files from bower_component assets to themes /js, /scss and /fonts folder. Run this task after bower install or bower update
+gulp.task('bower', function() {
 
+// Copy all Bootstrap JS files
+    var stream = gulp.src(basePaths.bower + 'bootstrap4/dist/js/**/*.js')
+        .pipe(gulp.dest(basePaths.dev + 'js/vendor/'));
+        
+// Copy all Bootstrap SCSS files
+    gulp.src(basePaths.bower + 'bootstrap4/scss/**/*.scss')
+        .pipe(gulp.dest(basePaths.dev + 'sass/assets/bootstrap4'));
+        
+// Copy all Font Awesome Fonts
+    gulp.src(basePaths.bower + 'components-font-awesome/fonts/**/*.{ttf,woff,woff2,eof,svg}')
+        .pipe(gulp.dest(basePaths.deploy + 'fonts'));
+        
+// Copy all Font Awesome SCSS files
+    gulp.src(basePaths.bower + 'components-font-awesome/scss/*.scss')
+        .pipe(gulp.dest(basePaths.dev + 'sass/assets/fontawesome'));
 
-
-
+    return stream;
+});
 
 // Run:
 // gulp sass
@@ -44,9 +65,14 @@ const browserSync = require('browser-sync').create();
 function sassCSS() {
     return(
         gulp
-        .src(basePaths.dev + 'sass/*.scss')      
+        .src(basePaths.dev + 'sass/*.scss')
+        .pipe(plumber({ errorHandler: function(err) {
+            notify.onError({
+                title: "Erro do Gulp em " + err.plugin,
+                message:  err.toString()
+            })(err);
+        }}))      
         .pipe(sass())
-        .on("error", sass.logError)
         .pipe(gulp.dest(basePaths.dev + 'css'))
     );
 };
@@ -57,44 +83,28 @@ function minifyCSS() {
 	.pipe(sourcemaps.init({loadMaps: true}))
     .pipe(autoprefixer())
 	.pipe(cleanCSS({compatibility: 'ie >= 8'}))
-	.pipe(plumber({
-	        errorHandler: function (err) {
-	            console.log(err);
-	            this.emit('end');
-	        }
-	    }))
 	.pipe(rename({suffix: '.min'}))
 	.pipe(sourcemaps.write('./'))
 	.pipe(gulp.dest(basePaths.deploy + 'css/'));
 };
 //exports.minifyCSS = minifyCSS;
-
 const styles = gulp.series(sassCSS, minifyCSS);
 
-
-// Run:
-// gulp copy-assets.
-// Copy all needed assets assets files from bower_component assets to themes /js, /scss and /fonts folder. Run this task after bower install or bower update
-gulp.task('bower', function() {
-
-// Copy all Bootstrap JS files
-    var stream = gulp.src(basePaths.bower + 'bootstrap4/dist/js/**/*.js')
-       .pipe(gulp.dest(basePaths.dev + 'js/vendor/'));
-       
-// Copy all Bootstrap SCSS files
-    gulp.src(basePaths.bower + 'bootstrap4/scss/**/*.scss')
-       .pipe(gulp.dest(basePaths.dev + 'sass/assets/bootstrap4'));
-              
-// Copy all Font Awesome Fonts
-    gulp.src(basePaths.bower + 'components-font-awesome/fonts/**/*.{ttf,woff,woff2,eof,svg}')
-        .pipe(gulp.dest(basePaths.deploy + 'fonts'));
-        
-// Copy all Font Awesome SCSS files
-    gulp.src(basePaths.bower + 'components-font-awesome/scss/*.scss')
-        .pipe(gulp.dest(basePaths.dev + 'sass/assets/fontawesome'));
-
-	return stream;
-});
+function scriptsJs() {    
+	return pipeline(
+        gulp.src(basePaths.dev + 'js/**/!(*.min)*.js'),
+        plumber({ errorHandler: function(err) {
+            notify.onError({
+                title: "Erro do Gulp em " + err.plugin,
+                message:  err.toString()
+            })(err);
+        }}), 
+		concat('theme.min.js'),
+        uglify(),
+		gulp.dest(basePaths.deploy + 'js/')
+	)
+};
+exports.scriptsJs = scriptsJs;
 
 // Run:
 // gulp imagemin
@@ -110,31 +120,6 @@ function imageminImg(done){
 };
 //exports.imageminImg = imageminImg;
 
-// Run: 
-// gulp scripts. 
-// Uglifies and concat all JS files into one
-function scriptsJs(done) {
-    const scripts = [
-        // Start - All BS4 stuff
-        basePaths.dev + 'js/vendor/bootstrap.bundle.js',
-        
-        // Custom js
-        basePaths.dev + 'js/main.js',
-    ];
-    
-	gulp.src(scripts)
-	.pipe(concat('theme.min.js'))
-	.pipe(uglify())
-	.pipe(gulp.dest(basePaths.deploy + 'js/'));
-	
-	gulp.src(scripts)
-	.pipe(concat('theme.js'))
-    .pipe(gulp.dest(basePaths.deploy + 'js/'));
-    
-    done();
-};
-//exports.scriptsJs = scriptsJs;
-
 // Run:
 // gulp watch
 // Starts watcher. Watcher runs gulp sass task on changes
@@ -145,7 +130,7 @@ function watchFiles() {
     //Inside the watch task.
     gulp.watch(basePaths.dev + 'img/**', imageminImg)
 };
-//exports.watchFiles = watchFiles;
+exports.watchFiles = watchFiles;
 
 
 // Run:
