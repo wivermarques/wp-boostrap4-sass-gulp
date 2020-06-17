@@ -29,10 +29,10 @@ const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const imagemin = require('gulp-imagemin');
-const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 const browserSync = require('browser-sync').create();
 const notify = require("gulp-notify");
+const uglify = require('gulp-uglify');
 const pipeline = require('readable-stream').pipeline;
 
 // Run:
@@ -90,21 +90,30 @@ function minifyCSS() {
 //exports.minifyCSS = minifyCSS;
 const styles = gulp.series(sassCSS, minifyCSS);
 
-function scriptsJs() {    
+// Run: 
+// gulp scripts. 
+// Uglifies and concat all JS files into one
+function scriptsJs(done) {    
+	const fileOrder = [
+		basePaths.dev + 'js/vendor/bootstrap.bundle.js',
+		basePaths.dev + 'js/main.js'
+	]; 
 	return pipeline(
-        gulp.src(basePaths.dev + 'js/**/!(*.min)*.js'),
-        plumber({ errorHandler: function(err) {
-            notify.onError({
-                title: "Erro do Gulp em " + err.plugin,
-                message:  err.toString()
-            })(err);
-        }}), 
+		gulp.src(fileOrder),
+		plumber({ errorHandler: function(err) {
+			notify.onError({
+				title: "Erro do Gulp em " + err.plugin,
+				message:  err.toString()
+			})(err);
+		}}), 
 		concat('theme.min.js'),
-        uglify(),
+		uglify(),
 		gulp.dest(basePaths.deploy + 'js/')
-	)
+	);
+	
+	done();
 };
-exports.scriptsJs = scriptsJs;
+//exports.scriptsJs = scriptsJs;
 
 // Run:
 // gulp imagemin
