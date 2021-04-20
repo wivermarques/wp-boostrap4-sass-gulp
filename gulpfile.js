@@ -11,12 +11,12 @@ const basePaths = {
 const browserSyncWatchFiles = [
   "./assets/css/*.min.css",
   "./assets/js/*.min.js",
-  "./**/*.html",
+  "./**/*.php",
 ];
 
 // browser-sync options
 const browserSyncOptions = {
-  proxy: "localhost/clientes/startup-solucoes/bolos-no-pote/html/",
+  proxy: "localhost/",
   notify: true,
 };
 
