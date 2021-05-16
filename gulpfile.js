@@ -23,7 +23,7 @@ const browserSyncOptions = {
 // Defining requirements
 const gulp = require("gulp");
 const plumber = require("gulp-plumber");
-const sass = require("gulp-sass");
+const sass = require("gulp-dart-sass");
 const cleanCSS = require("gulp-clean-css");
 const rename = require("gulp-rename");
 const sourcemaps = require("gulp-sourcemaps");
