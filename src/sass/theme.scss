@@ -1,6 +1,10 @@
-@import "assets/bootstrap4/bootstrap";
+@import "assets/bootstrap/bootstrap";
 
-@import "assets/fontawesome/font-awesome";
+@import "assets/fontawesome/brands";
+@import "assets/fontawesome/fontawesome";
+@import "assets/fontawesome/regular";
+@import "assets/fontawesome/solid";
+@import "assets/fontawesome/v4-shims";
 
 // Any additional imported files //
-@import "custom/theme"; 
+@import "custom/theme";
